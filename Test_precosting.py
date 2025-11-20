@@ -4,12 +4,13 @@ from playwright.sync_api import Playwright, sync_playwright, expect
 def test_open_playwright_page():
  with sync_playwright() as p:
     playwright = p
-    browser = p.chromium.launch(headless=False, timeout=2000)
+    browser = p.chromium.launch(headless=False, slow_mo=100)
     context = browser.new_context()
     page = context.new_page()
     page.goto("https://stagev15.inctl.net/#login")
 
     # Login part
+
     page.get_by_role("textbox", name="Email").click()
     page.get_by_role("textbox", name="Email").fill("Administrator")
 
@@ -24,6 +25,17 @@ def test_open_playwright_page():
     page.get_by_role("combobox", name="Search or type a command (").fill("pre costing")
     page.get_by_role("listitem").filter(has_text="Pre Costing List").click()
 
+
+
+    # draft find===========================
+    # page.locator('.btn.btn-default.btn-sm.filter-x-button').click()
+    # page.locator('//input[@placeholder="ID"]').click()
+    # page.locator('//input[@placeholder="ID"]').fill("Pre Costing-RMG-0022-035")
+    
+    # page.locator('span:has-text("Pre Costing-RMG-0022-035")').click()
+
+
+# nromal flow pre costing entry===========================
     page.get_by_role("button", name="Add Pre Costing").click()
     page.locator("form").filter(has_text="Finished Goods Type Begin").get_by_role("combobox").first.click()
     page.get_by_title("RMG", exact=True).click()
@@ -32,7 +44,7 @@ def test_open_playwright_page():
     page.get_by_text("HUPM0060").click()
 
     page.locator("form").filter(has_text="Finished Goods Type").get_by_role("textbox").nth(1).click()
-    page.get_by_text("19").click()
+    page.get_by_text("Today").click()
     page.locator(".ml-2 > .es-icon").first.click()
     page.locator(".ml-2 > .es-icon").first.click()
 
@@ -77,8 +89,9 @@ def test_open_playwright_page():
     page.locator(".grid-row.grid-row-open > .form-in-grid > .grid-form-heading > .toolbar > .row-actions > .btn.btn-secondary.btn-sm.pull-right.grid-collapse-row").click()
 
     # ACCESSORIES ITEM
-    page.locator("form").filter(has_text="accessories_items Accessories").get_by_role("button").click()
-    page.locator("span").filter(has_text=re.compile(r"^1$")).nth(2).click()
+    Acc_Button= page.locator("//div[@data-fieldname='accessories_items']//button[@type='button'][normalize-space()='Add Row']")
+    Acc_Button.click()
+    # page.locator("span").filter(has_text=re.compile(r"^1$")).nth(2).click()
     page.locator(".grid-row.grid-row-open > .form-in-grid > .grid-form-body > .form-area > .form-layout > .form-page > div > .section-body > div > form > div:nth-child(2) > .form-group > .control-input-wrapper > .control-input > .link-field > .awesomplete > .input-with-feedback").first.fill("butt")
     page.get_by_text("Accessories-0023").click()
     page.locator(".grid-row.grid-row-open > .form-in-grid > .grid-form-body > .form-area > .form-layout > .form-page > div > .section-body > div > form > div:nth-child(14) > .form-group > .control-input-wrapper > .control-input > .link-field > .awesomplete > .input-with-feedback").click()
@@ -93,6 +106,11 @@ def test_open_playwright_page():
     page.get_by_role("tab", name="Operations").click()
     page.get_by_role("tabpanel", name="Operations").get_by_role("combobox").click()
     page.get_by_title("KOHLS-OPB", exact=True).click()
+
+    #Production Item
+    Production_Item = page.get_by_role('tab', name='Production Item')
+    Production_Item.click()
+    Production_Item.wait_for(state="visible")
 
     # Pre Costing Data
     page.get_by_role("tab", name="Pre Costing Data").click()
@@ -109,18 +127,37 @@ def test_open_playwright_page():
     page.get_by_title("FOB").click()
     page.locator("//input[@data-fieldname='sales_price']").fill("15")
 
-    page.locator("button[data-label='Save']").click()
-
-    page.locator('button:has-text("Production Item")').click()
-    page.locator('label:has-text("Expense Detail")').scroll_into_view_if_needed()
-
+    Save_Button=page.get_by_text("Save", exact=True)
+    # Save_Button.scroll_into_view_if_needed()
+    Save_Button.click()
+    Save_Button.wait_for(state="visible")
     
-    page.locator("//div[@class='data-row row editable-row']//span[contains(text(),'8')]").click()
+
+
+    Production_Item.click()
+    Production_Item.wait_for(state="visible", timeout=5000)
+
+    Save_Button.click()
+    Save_Button.wait_for(state="visible", timeout=5000)
+    # Expense Items ===============
+    expence = page.get_by_text('Expense', exact=True)
+    expence.scroll_into_view_if_needed()
+    expect(expence).to_be_visible()
+    expect(expence).to_be_in_viewport()
+    # assert page.get_by_text('Expense', exact=True).is_visible()
+    print("Expense items is visible")
+
+    page.get_by_role('link', name='Testing').scroll_into_view_if_needed()
+    Expence_Row= page.locator("//span[normalize-space()='8']")
+    Expence_Row.click()
+    
+
     page.locator("//input[@data-fieldname='rate']").click()
-    page.get_by_role("textbox", name="Amount").fill("300")
+    page.locator("//input[@data-fieldname='rate']").fill("50")
+    
 
 
-    page.get_by_role("button", name="Save").click()
+    # Save_Button.click()
 
     # ---------------------
    
