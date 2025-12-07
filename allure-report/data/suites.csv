@@ -1,8 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","42301","test_open_playwright_page","","2025-11-19","passed","2025-11-19","","","",""
-"","0","test_sum","","2025-11-19","passed","2025-11-19","","test_example","",""
-"","95918","test_open_playwright_page","","2025-11-20","passed","2025-11-20","","Test_precosting","",""
-"","1","test_sum1","","2025-11-19","failed","2025-11-19","","Test_example","",""
-"","0","test_sum","","2025-11-19","passed","2025-11-19","","Test_example","",""
-"","0","test_sum1","","2025-11-19","failed","2025-11-19","","test_example","",""
-"","124466","test_open_playwright_page","","2025-11-20","passed","2025-11-20","","","",""

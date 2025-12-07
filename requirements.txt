@@ -1,0 +1,6 @@
+playwright
+# easyocr
+# pyspellchecker
+# beautifulsoup4
+requests
+pytes
