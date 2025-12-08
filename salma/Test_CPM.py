@@ -51,7 +51,7 @@ def test_example(page: Page) -> None:
     holyday.click()
     holyday.type("Holiday List 2025 Friday")
 
-    #  machine theke fatch hobe
+    #  machine theke fatch hobe  User can input Overhead Costs (Factory Overhead, Wages, Utility, Machine Depreciation)
     OverHeadCost = page.locator("//input[@data-fieldname='total_overhead_cost']")
     OverHeadCost.click()
     OverHeadCost.fill("15")
@@ -67,10 +67,11 @@ def test_example(page: Page) -> None:
     Total_monthCost.fill("15000")
     
     page.wait_for_timeout(2000)
+    
     FirstSave=page.get_by_role("button", name="Save")
     FirstSave.click()
     # avg_efficiency = wORKSTATION THEKE FATCH HOBE
-    print("Saved Successfully")
+   
    
      
 
