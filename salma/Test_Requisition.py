@@ -3,7 +3,7 @@ from playwright.sync_api import Page, expect
 
 def test_example(page: Page) -> None:
     # Navigate to the login page
-    page.goto("https://salma-qc.altersense.net/")
+    page.goto("https://stage-salma.altersense.net/")
 
     # Fill in login credentials
     page.get_by_role("textbox", name="Email").fill("Administrator")
